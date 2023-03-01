@@ -1,6 +1,8 @@
 import sys
 import signal
+import os
 from enum import Enum
+import stat
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -9,6 +11,8 @@ from PyQt5.QtCore import *
 from backends.ones_and_zeros import OnesAndZeros
 from backends.ones_and_zeros_avg import OnesAndZerosAvg
 from backends.byte_color import ByteColor
+
+from block_device import BlockDevice
 
 # Allow Ctrl+C
 signal.signal(signal.SIGINT, signal.SIG_DFL)
@@ -26,9 +30,36 @@ class BackendType(Enum):
 
 class MyApplication(QApplication):
 
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
+        self.device = None
+        self.backend = None
+
+    def reloadTable(self):
+        if not (self.backend and self.device):
+            return
+
     def changeBackend(self):
-        inst = list(BackendType)[self.backendComboBox.currentIndex()]
-        print(inst)
+        self.backend = list(BackendType)[self.backendComboBox.currentIndex()]
+        self.reloadTable()
+
+    def __is_block_device(self, path):
+        if not os.path.exists(path):
+            return False
+        stats = os.stat(path)
+        return stat.S_ISBLK(stats.st_mode)
+
+    def changeDevice(self):
+        device_path = self.deviceLineEdit.text()
+        if self.device and self.device.path == device_path:
+            return
+        if not self.__is_block_device(device_path):
+            print(f"{device_path} is not a valid block device")
+            return
+
+        self.device = BlockDevice(device_path)
+        self.reloadTable()
         
     def init(self):
         self.init_ui()
@@ -40,6 +71,10 @@ class MyApplication(QApplication):
         
         layout = QVBoxLayout()
         self.window.setLayout(layout)
+
+        self.deviceLineEdit = QLineEdit()
+        self.deviceLineEdit.editingFinished.connect(self.changeDevice)
+        layout.addWidget(self.deviceLineEdit)
 
         self.backendComboBox = QComboBox()
         for inst in BackendType:
