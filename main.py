@@ -10,6 +10,7 @@ from PyQt5.QtCore import *
 
 from backends.ones_and_zeros import OnesAndZeros
 from backends.ones_and_zeros_avg import OnesAndZerosAvg
+from backends.byte_value import ByteValue
 from backends.byte_color import ByteColor
 
 from block_device import BlockDevice
@@ -20,6 +21,7 @@ signal.signal(signal.SIGINT, signal.SIG_DFL)
 class BackendType(Enum):
     ONES_AND_ZEROS = ("Ones and zeros", OnesAndZeros)
     ONES_AND_ZEROS_AVG = ("Ones and zeros average", OnesAndZerosAvg)
+    BYTE_VALUE = ("Byte value", ByteValue)
     BYTE_COLOR = ("Byte color", ByteColor)
 
     
