@@ -86,23 +86,23 @@ class MyApplication(QApplication):
 
         CELL_HEIGHT_N = 16
         CELL_WIDTH_N = 50
-        tableWidget = QTableWidget(CELL_HEIGHT_N, CELL_WIDTH_N)
-        tableWidget.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
+        self.table = QTableWidget(CELL_HEIGHT_N, CELL_WIDTH_N)
+        self.table.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
 
-        tableWidget.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        self.table.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
 
         CELL_SIZE = 10
-        for header in (tableWidget.horizontalHeader(), tableWidget.verticalHeader()):
+        for header in (self.table.horizontalHeader(), self.table.verticalHeader()):
             header.hide()
             header.setMinimumSectionSize(CELL_SIZE)
             header.setDefaultSectionSize(CELL_SIZE)
             header.setMaximumSectionSize(CELL_SIZE)
 
         # for some reason you need to do +5
-        tableWidget.setFixedHeight(CELL_SIZE * CELL_HEIGHT_N + 5)
-        tableWidget.setFixedWidth(CELL_SIZE * CELL_WIDTH_N + 5)
+        self.table.setFixedHeight(CELL_SIZE * CELL_HEIGHT_N + 5)
+        self.table.setFixedWidth(CELL_SIZE * CELL_WIDTH_N + 5)
 
-        layout.addWidget(tableWidget)
+        layout.addWidget(self.table)
 
     def run(self):
         self.window.show()
