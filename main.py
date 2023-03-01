@@ -47,7 +47,7 @@ class MyApplication(QApplication):
 
     def reloadTable(self):
         if self.backend and self.device:
-            backendInst = self.backend.class_(self.table, self.device, self.__tableIterator())
+            backendInst = self.backend.class_(self.table, self.device, list(self.__tableIterator()))
             backendInst.run()
 
     def changeBackend(self):

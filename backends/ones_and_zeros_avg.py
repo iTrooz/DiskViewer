@@ -1,9 +1,9 @@
 class OnesAndZerosAvg:
     
-    def __init__(self, table, device, tableIterator):
+    def __init__(self, table, device, tableIndexes):
         self.table = table
         self.device = device
-        self.tableIterator = tableIterator
+        self.tableIndexes = tableIndexes
 
     def run(self):
         pass
