@@ -6,13 +6,23 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
+from backends.ones_and_zeros import OnesAndZeros
+from backends.ones_and_zeros_avg import OnesAndZerosAvg
+from backends.byte_color import ByteColor
+
 # Allow Ctrl+C
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 class BackendType(Enum):
-    ONES_AND_ZEROS = "Ones and zeros"
-    ONES_AND_ZEROS_AVG = "Ones and zeros average"
-    BYTE_COLOR = "Byte color"
+    ONES_AND_ZEROS = ("Ones and zeros", OnesAndZeros)
+    ONES_AND_ZEROS_AVG = ("Ones and zeros average", OnesAndZerosAvg)
+    BYTE_COLOR = ("Byte color", ByteColor)
+
+    
+    def __init__(self, text, class_):
+        self.text = text
+        self.class_ = class_
+
 
 class MyApplication(QApplication):
 
@@ -33,7 +43,7 @@ class MyApplication(QApplication):
 
         self.comboBox = QComboBox()
         for inst in BackendType:
-            self.comboBox.addItem(inst.value)
+            self.comboBox.addItem(inst.text)
         
         self.comboBox.currentIndexChanged.connect(self.changeBackend)
         
