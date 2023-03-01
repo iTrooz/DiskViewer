@@ -27,7 +27,7 @@ class BackendType(Enum):
 class MyApplication(QApplication):
 
     def changeBackend(self):
-        inst = list(BackendType)[self.comboBox.currentIndex()]
+        inst = list(BackendType)[self.backendComboBox.currentIndex()]
         print(inst)
         
     def init(self):
@@ -41,13 +41,13 @@ class MyApplication(QApplication):
         layout = QVBoxLayout()
         self.window.setLayout(layout)
 
-        self.comboBox = QComboBox()
+        self.backendComboBox = QComboBox()
         for inst in BackendType:
-            self.comboBox.addItem(inst.text)
+            self.backendComboBox.addItem(inst.text)
         
-        self.comboBox.currentIndexChanged.connect(self.changeBackend)
+        self.backendComboBox.currentIndexChanged.connect(self.changeBackend)
         
-        layout.addWidget(self.comboBox)
+        layout.addWidget(self.backendComboBox)
 
         CELL_HEIGHT_N = 16
         CELL_WIDTH_N = 50
