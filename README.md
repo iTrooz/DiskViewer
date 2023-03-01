@@ -1,0 +1,1 @@
+Licence: GPL-2-or-later
