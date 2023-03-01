@@ -40,9 +40,15 @@ class MyApplication(QApplication):
         self.CELL_WIDTH_N = 50
         self.CELL_SIZE = 10
 
+    def __tableIterator(self):
+        for i in range(self.CELL_HEIGHT_N): 
+            for j in range(self.CELL_WIDTH_N):
+                yield i, j
+
     def reloadTable(self):
-        if not (self.backend and self.device):
-            return
+        if self.backend and self.device:
+            backendInst = self.backend.class_(self.table, self.device, self.__tableIterator())
+            backendInst.run()
 
     def changeBackend(self):
         self.backend = list(BackendType)[self.backendComboBox.currentIndex()]
