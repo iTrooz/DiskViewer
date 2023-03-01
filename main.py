@@ -36,6 +36,10 @@ class MyApplication(QApplication):
         self.device = None
         self.backend = None
 
+        self.CELL_HEIGHT_N = 16
+        self.CELL_WIDTH_N = 50
+        self.CELL_SIZE = 10
+
     def reloadTable(self):
         if not (self.backend and self.device):
             return
@@ -84,23 +88,20 @@ class MyApplication(QApplication):
         
         layout.addWidget(self.backendComboBox)
 
-        CELL_HEIGHT_N = 16
-        CELL_WIDTH_N = 50
-        self.table = QTableWidget(CELL_HEIGHT_N, CELL_WIDTH_N)
+        self.table = QTableWidget(self.CELL_HEIGHT_N, self.CELL_WIDTH_N)
         self.table.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
 
         self.table.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
 
-        CELL_SIZE = 10
         for header in (self.table.horizontalHeader(), self.table.verticalHeader()):
             header.hide()
-            header.setMinimumSectionSize(CELL_SIZE)
-            header.setDefaultSectionSize(CELL_SIZE)
-            header.setMaximumSectionSize(CELL_SIZE)
+            header.setMinimumSectionSize(self.CELL_SIZE)
+            header.setDefaultSectionSize(self.CELL_SIZE)
+            header.setMaximumSectionSize(self.CELL_SIZE)
 
         # for some reason you need to do +5
-        self.table.setFixedHeight(CELL_SIZE * CELL_HEIGHT_N + 5)
-        self.table.setFixedWidth(CELL_SIZE * CELL_WIDTH_N + 5)
+        self.table.setFixedHeight(self.CELL_SIZE * self.CELL_HEIGHT_N + 5)
+        self.table.setFixedWidth(self.CELL_SIZE * self.CELL_WIDTH_N + 5)
 
         layout.addWidget(self.table)
 
