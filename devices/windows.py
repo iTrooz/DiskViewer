@@ -46,5 +46,10 @@ class WindowsBlockDevice(BlockDevice):
 
     def get_bytes(self, offset, size) -> bytes:
         with open(self.get_path(), "rb") as f:
-            f.seek(offset, 0)
+            
+            # Windows wants us to align the offset
+            alignment = self.device.BytesPerSector if self.type == DeviceType.PHYSICAL else 512
+            aligned_offset = round(offset/alignment)*alignment
+            
+            f.seek(aligned_offset, 0)
             return f.read(size)
