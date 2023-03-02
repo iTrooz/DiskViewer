@@ -18,7 +18,8 @@ class BlockDevice:
                 from devices.macos import MacOSBlockDevice
                 return MacOSBlockDevice
             case utils.Plateform.WINDOWS:
-                raise NotImplementedError()
+                from devices.windows import WindowsBlockDevice
+                return WindowsBlockDevice
             case _:
                 raise NotImplementedError()
 
