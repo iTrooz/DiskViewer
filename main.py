@@ -56,21 +56,17 @@ class MyApplication(QApplication):
         self.backend = list(BackendType)[self.backendComboBox.currentIndex()]
         self.reloadTable()
 
-    def __is_block_device(self, path):
-        if not os.path.exists(path):
-            return False
-        stats = os.stat(path)
-        return stat.S_ISBLK(stats.st_mode)
-
     def changeDevice(self):
         device_path = self.deviceLineEdit.text()
         if self.device and self.device.path == device_path:
             return
-        if not self.__is_block_device(device_path):
-            print(f"{device_path} is not a valid block device")
+
+        try:
+            self.device = BlockDevice.create(device_path)
+        except ValueError as e:
+            print(str(e))
             return
 
-        self.device = BlockDevice(device_path)
         self.reloadTable()
         
     def init(self):

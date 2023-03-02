@@ -1,4 +1,6 @@
 import sys
+import os
+import stat
 from enum import Enum
 
 class Plateform(Enum):
@@ -16,3 +18,9 @@ def get_platform():
             return Plateform.WINDOWS
         case _:
             raise NotImplementedError()
+
+def unix_is_block_device(path):
+    if not os.path.exists(path):
+        return False
+    stats = os.stat(path)
+    return stat.S_ISBLK(stats.st_mode)
