@@ -14,13 +14,16 @@ https://github.com/benschweizer/iops/blob/0977775ca01713fe2f13bbd8cf298054e3d879
 """
 
 class MacOSBlockDevice(BlockDevice):
-    def __init__(self, path) -> None:
-        if not utils.unix_is_block_device(path):
-            raise ValueError(f"'{path}' is not a block device")
-        self.path = path
+    def __init__(self, _path) -> None:
+        if not utils.unix_is_block_device(_path):
+            raise ValueError(f"'{_path}' is not a block device")
+        self._path = _path
+    
+    def get_path(self) -> str:
+        return self._path
     
     def get_size(self) -> bytes:
-        with open(self.path) as dev:
+        with open(self._path) as dev:
 
             buf = ' ' * 4
             buf = fcntl.ioctl(dev.fileno(), DKIOCGETBLOCKSIZE, buf)

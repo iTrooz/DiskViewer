@@ -58,7 +58,7 @@ class MyApplication(QApplication):
 
     def changeDevice(self):
         device_path = self.deviceLineEdit.text()
-        if self.device and self.device.path == device_path:
+        if self.device and self.device.get_path() == device_path:
             return
 
         try:
