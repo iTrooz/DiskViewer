@@ -34,3 +34,8 @@ class MacOSBlockDevice(BlockDevice):
             blockCount = struct.unpack('Q', buf)[0]
 
             return blockSize * blockCount
+
+    def get_bytes(self, offset, size) -> bytes:
+        with open(self.get_path(), "rb") as f:
+            f.seek(offset, 0)
+            return f.read(size)

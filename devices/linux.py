@@ -15,3 +15,8 @@ class LinuxBlockDevice(BlockDevice):
     def get_size(self) -> bytes:
        with open(self._path, "rb") as f:
             return f.seek(0, 2)
+
+    def get_bytes(self, offset, size) -> bytes:
+        with open(self.get_path(), "rb") as f:
+            f.seek(offset, 0)
+            return f.read(size)
