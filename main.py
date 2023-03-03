@@ -41,12 +41,21 @@ class MyApplication(QApplication):
         self.device = None
         self.backend = None
 
+        # used to filter changeDevice()
+        self.device_path = None
+
         self.CELL_HEIGHT_N = 16
         self.CELL_WIDTH_N = 50
         self.CELL_SIZE = 10
         
+        self.workerThread = QThread(self)
+        self.workerThread.start()
+
         self.worker = Worker(self.edit_table_sig, list(self.__tableIterator()))
+        self.worker.moveToThread(self.workerThread)
+
         self.edit_table_sig.connect(self.edit_table)
+        self.loadTable_sig.connect(self.worker.loadTable)
 
     def __tableIterator(self):
         for i in range(self.CELL_HEIGHT_N): 
@@ -55,22 +64,24 @@ class MyApplication(QApplication):
 
     def reloadTable(self):
         if self.backend and self.device:
-            
-            # prepare thread
-            thread = QThread(self)
-            self.worker.moveToThread(thread)
 
-            backendInst = self.backend.class_(self.table, self.device, list(self.__tableIterator()), self.edit_table_sig)
-            
-            self.loadTable_sig.connect(self.worker.loadTable)
-            self.loadTable_sig.emit((backendInst,))
+            # stop the old function call
+            self.worker.cancelFlag = True
 
-            # clear table
+            # wait for the function to finish
+            self.worker.mutex.lock()
+            self.worker.mutex.unlock()
+
+            # process all events in the queue (preparation to clear the table)
+            QCoreApplication.processEvents()
+            
+            # clear the table
             for x, y in self.__tableIterator():
                 self.edit_table((x, y, (255, 255, 255)))
 
-            # start thread
-            thread.start()
+            # start work
+            backendInst = self.backend.class_(self.table, self.device, list(self.__tableIterator()), self.edit_table_sig)
+            self.loadTable_sig.emit((backendInst,))
 
     @pyqtSlot(tuple)
     def edit_table(self, new_data):
@@ -85,7 +96,7 @@ class MyApplication(QApplication):
 
     def changeDevice(self):
         device_path = self.deviceLineEdit.text()
-        if self.device and self.device.get_path() == device_path:
+        if self.device_path == device_path:
             return
 
         try:
@@ -94,6 +105,7 @@ class MyApplication(QApplication):
             print(str(e))
             return
 
+        self.device_path = device_path
         self.reloadTable()
         
     def init(self):
