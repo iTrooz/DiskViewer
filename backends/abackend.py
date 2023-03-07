@@ -1,4 +1,6 @@
-class ABackend:
+from abc import ABC, abstractmethod
+
+class ABackend(ABC):
 
     def __init__(self, table, device, tableIndexes, edit_table_sig):
         self.table = table
@@ -6,8 +8,9 @@ class ABackend:
         self.tableIndexes = tableIndexes
         self.edit_table_sig = edit_table_sig
 
+    @abstractmethod
     def draw_pixel(x, y) -> tuple:
-        raise NotImplementedError("Subclass me")
+        pass
 
     def run(self, worker):
         self.step = self.device.get_size()/len(self.tableIndexes)
