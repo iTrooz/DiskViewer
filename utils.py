@@ -3,7 +3,7 @@ import os
 import stat
 from enum import Enum
 
-class Plateform(Enum):
+class Platform(Enum):
     LINUX = 0
     WINDOWS = 1
     MACOS = 2
@@ -11,11 +11,11 @@ class Plateform(Enum):
 def get_platform():
     match sys.platform:
         case "linux":
-            return Plateform.LINUX
+            return Platform.LINUX
         case "darwin":
-            return Plateform.MACOS
+            return Platform.MACOS
         case "win32":
-            return Plateform.WINDOWS
+            return Platform.WINDOWS
         case _:
             raise NotImplementedError()
 

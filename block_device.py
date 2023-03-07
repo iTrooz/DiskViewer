@@ -11,13 +11,13 @@ class BlockDevice:
     @staticmethod
     def get_class():
         match utils.get_platform():
-            case utils.Plateform.LINUX:
+            case utils.Platform.LINUX:
                 from devices.linux import LinuxBlockDevice
                 return LinuxBlockDevice
-            case utils.Plateform.MACOS:
+            case utils.Platform.MACOS:
                 from devices.macos import MacOSBlockDevice
                 return MacOSBlockDevice
-            case utils.Plateform.WINDOWS:
+            case utils.Platform.WINDOWS:
                 from devices.windows import WindowsBlockDevice
                 return WindowsBlockDevice
             case _:
