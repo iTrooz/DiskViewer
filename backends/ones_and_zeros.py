@@ -8,5 +8,3 @@ class OnesAndZeros(ABackend):
         color_comp = int(ones_count*256/8)
 
         return (color_comp, color_comp, color_comp)
-
-
