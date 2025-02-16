@@ -16,9 +16,6 @@ from diskviewer.backends.byte_color import ByteColor
 from diskviewer.block_device import BlockDevice
 from diskviewer.worker import Worker
 
-# Allow Ctrl+C
-signal.signal(signal.SIGINT, signal.SIG_DFL)
-
 class BackendType(Enum):
     ONES_AND_ZEROS = ("Ones and zeros", OnesAndZeros)
     BYTE_VALUE = ("Byte value", ByteValue)
@@ -152,8 +149,13 @@ class MyApplication(QApplication):
         self.window.show()
         sys.exit(self.exec_())
 
-if __name__ == '__main__':
+def main():
+    # Allow Ctrl+C
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+
     app = MyApplication(sys.argv)
     app.init()
     app.run()
 
+if __name__ == '__main__':
+    main()
