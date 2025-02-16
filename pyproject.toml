@@ -9,7 +9,6 @@ dependencies = [
     "pyqt5 (>=5.15.11,<6.0.0)",
     "wmi (>=1.5.1,<2.0.0) ; sys_platform == \"win32\""
 ]
-packages = [{ include = "diskviewer" }]
 
 [tool.poetry.scripts]
 diskviewer = "diskviewer.main:main"
