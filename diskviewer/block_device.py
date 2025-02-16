@@ -1,4 +1,4 @@
-import utils
+from diskviewer import utils
 
 class BlockDevice:
     def __init__(self, path) -> None:

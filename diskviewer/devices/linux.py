@@ -1,5 +1,5 @@
-import utils
-from block_device import BlockDevice
+from diskviewer import utils
+from diskviewer.block_device import BlockDevice
 
 BLKGETSIZE64 = 0x80081272
 

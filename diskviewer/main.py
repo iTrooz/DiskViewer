@@ -9,12 +9,12 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
-from backends.ones_and_zeros import OnesAndZeros
-from backends.byte_value import ByteValue
-from backends.byte_color import ByteColor
+from diskviewer.backends.ones_and_zeros import OnesAndZeros
+from diskviewer.backends.byte_value import ByteValue
+from diskviewer.backends.byte_color import ByteColor
 
-from block_device import BlockDevice
-from worker import Worker
+from diskviewer.block_device import BlockDevice
+from diskviewer.worker import Worker
 
 # Allow Ctrl+C
 signal.signal(signal.SIGINT, signal.SIG_DFL)

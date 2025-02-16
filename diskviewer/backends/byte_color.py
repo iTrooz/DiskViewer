@@ -1,4 +1,4 @@
-from backends.abackend import ABackend
+from diskviewer.backends.abackend import ABackend
 
 class ByteColor(ABackend):
 

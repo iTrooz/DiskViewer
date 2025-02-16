@@ -3,7 +3,7 @@ from enum import Enum
 
 import wmi
 
-from block_device import BlockDevice
+from diskviewer.block_device import BlockDevice
 
 class DeviceType(Enum):
     PHYSICAL = 0

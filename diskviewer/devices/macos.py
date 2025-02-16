@@ -1,8 +1,8 @@
 import fcntl
 import struct
 
-import utils
-from block_device import BlockDevice
+from diskviewer import utils
+from diskviewer.block_device import BlockDevice
 
 DKIOCGETBLOCKSIZE  = 0x40046418
 DKIOCGETBLOCKCOUNT = 0x40086419
